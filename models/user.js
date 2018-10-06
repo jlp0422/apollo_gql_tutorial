@@ -32,6 +32,9 @@ const user = (sequelize, DataTypes) => {
         notEmpty: true,
         len: [7, 42]
       }
+    },
+    isAdmin: {
+      type: DataTypes.BOOLEAN
     }
   });
 

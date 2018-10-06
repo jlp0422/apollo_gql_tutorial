@@ -49,6 +49,10 @@ module.exports = {
       }
 
       return { token: createToken(user, secret, '30m') }
+    },
+
+    deleteUser: async (parent, { id }, { models }) => {
+      return await models.User.destroy({ where: { id } })
     }
   },
 
