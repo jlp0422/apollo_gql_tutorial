@@ -4,7 +4,10 @@ module.exports = {
   Query: {
     users: async (parent, args, { models }) => await models.User.findAll(),
     user: async (parent, { id }, { models }) => await models.User.findById(id),
-    me: async (parent, args, { me }) => await models.User.findById(me.id)
+    me: async (parent, args, { me }) => {
+      if (!me) return null;
+      await models.User.findById(me.id)
+    }
   },
 
   User: {
