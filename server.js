@@ -40,6 +40,8 @@ const createUsersWithMessages = async () => {
       username: 'jeremyphilipson',
       firstName: 'Jeremy',
       lastName: 'Philipson',
+      email: 'jeremyphilipson@gmail.com',
+      password: 'charlesbear',
       messages: [
         {
           text: 'Learning how to use GraphQL'
@@ -56,9 +58,11 @@ const createUsersWithMessages = async () => {
 
   await models.User.create(
     {
-      username: 'carolynjfine',
+      username: 'cjfine',
       firstName: 'Carolyn',
       lastName: 'Fine',
+      email: 'carolynjfine@gmail.com',
+      password: 'lucybear',
       messages: [
         {
           text: `Likes to watch 'This is Us'`
