@@ -1,5 +1,6 @@
 const uuidv4 = require('uuid/v4');
 const jwt = require('jsonwebtoken');
+const { AuthenticationError, UserInputError } = require('apollo-server');
 
 const createToken = async (user, secret, expiresIn) => {
   const { id, email, username } = user;
