@@ -1,9 +1,7 @@
 const Sequelize = require('sequelize');
 
 const sequelize = new Sequelize(
-  'postgres://localhost/apollo_gql',
-  // process.env.DATABASE_USER,
-  // process.env.DATABASE_PASSWORD,
+  `postgres://localhost/${process.env.DATABASE_NAME}`,
   {
     // dialect: 'postgres'
     logging: false

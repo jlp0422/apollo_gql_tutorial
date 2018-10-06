@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express')
 const cors = require('cors');
 const { ApolloServer } = require('apollo-server-express');
@@ -20,7 +21,8 @@ const server = new ApolloServer({
   },
   context: async () => ({
     models,
-    me: await models.User.findByLogin('jeremyphilipson')
+    me: await models.User.findByLogin('jlp0422'),
+    secret: process.env.SECRET
   })
 });
 
@@ -37,7 +39,7 @@ sequelize.sync({ force: eraseDatabaseOnSync })
 const createUsersWithMessages = async () => {
   await models.User.create(
     {
-      username: 'jeremyphilipson',
+      username: 'jlp0422',
       firstName: 'Jeremy',
       lastName: 'Philipson',
       email: 'jeremyphilipson@gmail.com',
