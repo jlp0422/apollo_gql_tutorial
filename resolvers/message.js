@@ -1,4 +1,8 @@
 const uuidv4 = require('uuid/v4');
+const { combineResolvers } = require('graphql-resolvers');
+const { isAuthenticated, isMessageOwner } = require('./authorization');
+
+// combineResolvers will run resolvers _in order_ //
 
 module.exports = {
   Query: {
@@ -7,27 +11,24 @@ module.exports = {
   },
 
   Mutation: {
-    createMessage: async (parent, { text }, { me, models }) => {
-      try {
+    createMessage: combineResolvers(
+      isAuthenticated,
+      async (parent, { text }, { me, models }) => {
         return await models.Message.create({
           text,
           userId: me.id
         })
-      } catch (error) {
-        throw new Error(error)
       }
-    },
+    ),
 
-    deleteMessage: async (parent, { id }, { models }) => {
-      return await models.Message.destroy({ where: { id } })
-    },
-    // updateMessage: (parent, info, { models }) => {
-    //   let { [info.id]: message, ...otherMessages } = models.messages;
-    //   if (!message) return false;
-    //   const updatedMessage = Object.assign({}, message, info)
-    //   models.messages = { [`${updatedMessage.id}`]: updatedMessage, ...otherMessages }
-    //   return updatedMessage
-    // }
+    deleteMessage: combineResolvers(
+      // these will run in order
+      isAuthenticated,
+      isMessageOwner,
+      async (parent, { id }, { models }) => {
+        return await models.Message.destroy({ where: { id } })
+      },
+    )
   },
 
   Message: {
