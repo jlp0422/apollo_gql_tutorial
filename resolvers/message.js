@@ -2,7 +2,7 @@ const uuidv4 = require('uuid/v4');
 const { combineResolvers } = require('graphql-resolvers');
 const { isAuthenticated, isMessageOwner } = require('./authorization');
 
-// combineResolvers will run resolvers _in order_ //
+// combineResolvers will run resolvers IN ORDER //
 
 module.exports = {
   Query: {
