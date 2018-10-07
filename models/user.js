@@ -38,7 +38,7 @@ const user = (sequelize, DataTypes) => {
     }
   });
 
-  User.associate = models => {
+  User.associate = (models) => {
     User.hasMany(models.Message, { onDelete: 'CASCADE' })
   };
 
