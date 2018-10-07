@@ -34,6 +34,7 @@ const server = new ApolloServer({
     const message = error.message
       .replace('SequelizeValidationError: ', '')
       .replace('Validation error: ', '')
+      .replace('Context creation failed: ', '')
     return { ...error, message };
   },
   context: async ({ req }) => {

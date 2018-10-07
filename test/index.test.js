@@ -77,6 +77,7 @@ describe('user model', () => {
 })
 
 describe('user authentication', () => {
+  let token;
   it('returns a credential error if login is incorrect', (done) => {
     request.post('/graphql')
       .send({ query:
@@ -124,6 +125,18 @@ describe('user authentication', () => {
         if (err) return done(err)
         expect(res.body.data.signIn).to.have.property('token')
         expect(res.body.data.signIn.token).to.be.a('string')
+        done()
+      })
+  })
+
+  it('throws authorization error with invalid token header', (done) => {
+    request.post('/graphql')
+      .send({ query: `{ user(id: 1) { id username } }`})
+      .set('x-token', 'sdjfklasdfjaklsd')
+      .expect(400)
+      .end((err, res) => {
+        if (err) return done(err)
+        expect(res.body.errors[0].message).to.equal('Your session has expired. Please sign in again.')
         done()
       })
   })
