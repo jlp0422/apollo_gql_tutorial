@@ -65,6 +65,7 @@ const createUsersWithMessages = async () => {
       lastName: 'Philipson',
       email: 'jeremyphilipson@gmail.com',
       password: 'charlesbear',
+      isAdmin: true,
       messages: [
         {
           text: 'Learning how to use GraphQL'
@@ -86,6 +87,7 @@ const createUsersWithMessages = async () => {
       lastName: 'Fine',
       email: 'carolynjfine@gmail.com',
       password: 'lucybear',
+      isAdmin: false,
       messages: [
         {
           text: `Likes to watch 'This is Us'`
