@@ -13,9 +13,9 @@ module.exports = {
   Query: {
     users: async (parent, args, { models }) => await models.User.findAll(),
     user: async (parent, { id }, { models }) => await models.User.findById(id),
-    me: async (parent, args, { me }) => {
+    me: async (parent, args, { me, models }) => {
       if (!me) return null;
-      await models.User.findById(me.id)
+      return await models.User.findById(me.id)
     }
   },
 

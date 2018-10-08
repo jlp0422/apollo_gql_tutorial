@@ -1,3 +1,4 @@
+require('dotenv').config()
 const expect = require('chai').expect
 const url = `http://localhost:8000`
 const request = require('supertest')(url)
@@ -112,6 +113,18 @@ describe('user authentication', () => {
       })
   })
 
+  it('throws authorization error with invalid token header', (done) => {
+    request.post('/graphql')
+      .send({ query: `mutation { user(id: 1) { id username } }` })
+      .set('x-token', 'sdjfklasdfjaklsd')
+      .expect(400)
+      .end((err, res) => {
+        if (err) return done(err)
+        expect(res.body.errors[0].message).to.equal('Your session has expired. Please sign in again.')
+        done()
+      })
+  })
+
   it('returns valid token after login with correct credentials', (done) => {
     request.post('/graphql')
       .send({ query:
@@ -122,21 +135,26 @@ describe('user authentication', () => {
       })
       .expect(200)
       .end((err, res) => {
+        const loggedInUser = jwt.verify(res.body.data.signIn.token, SECRET)
         if (err) return done(err)
         expect(res.body.data.signIn).to.have.property('token')
         expect(res.body.data.signIn.token).to.be.a('string')
+        expect(!!loggedInUser.id).to.be.true
+        token = res.body.data.signIn.token
         done()
       })
   })
 
-  it('throws authorization error with invalid token header', (done) => {
+  it('can return the logged in user', (done) => {
     request.post('/graphql')
-      .send({ query: `{ user(id: 1) { id username } }`})
-      .set('x-token', 'sdjfklasdfjaklsd')
-      .expect(400)
+      .send({ query: `{ me { id, username, email } }` })
+      .set('x-token', token)
+      .expect(200)
       .end((err, res) => {
-        if (err) return done(err)
-        expect(res.body.errors[0].message).to.equal('Your session has expired. Please sign in again.')
+        const loggedInUser = jwt.verify(token, SECRET)
+        expect(res.body.data.me.id*1).to.equal(loggedInUser.id)
+        expect(res.body.data.me.username).to.equal(loggedInUser.username)
+        expect(res.body.data.me.email).to.equal(loggedInUser.email)
         done()
       })
   })
