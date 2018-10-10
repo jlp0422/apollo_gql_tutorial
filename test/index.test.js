@@ -62,7 +62,7 @@ describe('user model', () => {
       })
   })
 
-  it('can delete a user', (done) => {
+  xit('can delete a user', (done) => {
     request.post('/graphql')
       .send({ query:
         `mutation {
@@ -139,7 +139,7 @@ describe('user authentication', () => {
         if (err) return done(err)
         expect(res.body.data.signIn).to.have.property('token')
         expect(res.body.data.signIn.token).to.be.a('string')
-        expect(!!loggedInUser.id).to.be.true
+        expect(loggedInUser.id).to.be.ok
         token = res.body.data.signIn.token
         done()
       })

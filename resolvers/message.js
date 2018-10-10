@@ -1,12 +1,23 @@
 const uuidv4 = require('uuid/v4');
 const { combineResolvers } = require('graphql-resolvers');
 const { isAuthenticated, isMessageOwner } = require('./authorization');
+const Sequelize = require('sequelize');
 
 // combineResolvers will run resolvers IN ORDER //
 
 module.exports = {
   Query: {
-    messages: async (parent, args, { models }) => await models.Message.findAll(),
+    messages: async (parent, { cursor, limit = 100 }, { models }) => {
+      return await models.Message.findAll({
+        order: [[ 'createdAt', 'DESC' ]],
+        limit,
+        where: cursor ? {
+          createdAt: {
+            [Sequelize.Op.lt]: new Date(cursor).getTime(),
+          }
+        } : null
+      })
+    },
     message: async (parent, { id }, { models }) => await models.Message.findById(id),
   },
 

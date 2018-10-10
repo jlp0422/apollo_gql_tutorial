@@ -8,7 +8,7 @@ const message = (sequelize, DataTypes) => {
           msg: 'A message is required to have text.'
         }
       }
-    }
+    },
   });
 
   Message.associate = models => {

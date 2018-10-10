@@ -2,10 +2,7 @@ require('dotenv').config()
 const express = require('express')
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
-const {
-  ApolloServer,
-  AuthenticationError
-} = require('apollo-server-express');
+const { ApolloServer, AuthenticationError } = require('apollo-server-express');
 const { models, sequelize } = require('./models');
 const schema = require('./schema');
 const resolvers = require('./resolvers');
@@ -58,25 +55,28 @@ sequelize.sync({ force: eraseDatabaseOnSync })
   })
 
 const createUsersWithMessages = async () => {
+  const date = new Date()
   await models.User.create(
     {
       username: 'jlp0422',
       firstName: 'Jeremy',
       lastName: 'Philipson',
       email: 'jeremyphilipson@gmail.com',
-      password: 'charlesbear',
+      password: 'password',
       isAdmin: true,
       messages: [
         {
-          text: 'Learning how to use GraphQL'
+          text: 'Learning how to use GraphQL',
+          createdAt: date.setSeconds(date.getSeconds() + 1)
         },
         {
-          text: 'Just started in Front End Engineering!'
+          text: 'Just started in Front End Engineering!',
+          createdAt: date.setSeconds(date.getSeconds() + 2)
         }
       ]
     },
     {
-      include: [ models.Message]
+      include: [ models.Message ]
     }
   );
 
@@ -86,14 +86,16 @@ const createUsersWithMessages = async () => {
       firstName: 'Carolyn',
       lastName: 'Fine',
       email: 'carolynjfine@gmail.com',
-      password: 'lucybear',
+      password: 'password',
       isAdmin: false,
       messages: [
         {
-          text: `Likes to watch 'This is Us'`
+          text: `Likes to watch 'This is Us'`,
+          createdAt: date.setSeconds(date.getSeconds() + 3)
         },
         {
-          text: 'Likes to cuddle'
+          text: 'Likes the Yankees',
+          createdAt: date.setSeconds(date.getSeconds() + 4)
         }
       ]
     },

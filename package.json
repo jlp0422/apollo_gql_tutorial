@@ -4,9 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start:dev": "nodemon server.js",
-    "test:dev": "mocha ./test/*.test.js"
+    "test": "mocha ./test/*.test.js",
+    "start:dev": "nodemon server.js"
   },
   "keywords": [],
   "author": "",
