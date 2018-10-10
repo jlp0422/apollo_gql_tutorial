@@ -66,11 +66,11 @@ const createUsersWithMessages = async () => {
       isAdmin: true,
       messages: [
         {
-          text: 'Learning how to use GraphQL',
+          text: 'Learning GraphQL',
           createdAt: date.setSeconds(date.getSeconds() + 1)
         },
         {
-          text: 'Just started in Front End Engineering!',
+          text: 'Just started in Engineering!',
           createdAt: date.setSeconds(date.getSeconds() + 2)
         }
       ]
