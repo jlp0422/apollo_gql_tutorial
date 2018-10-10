@@ -28,4 +28,12 @@ module.exports = gql`
     createdAt: String!
     user: User!
   }
+
+  extend type Subscription {
+    messageCreated: MessageCreated!
+  }
+
+  type MessageCreated {
+    message: Message!
+  }
 `;

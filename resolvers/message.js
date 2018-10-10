@@ -1,7 +1,8 @@
 const uuidv4 = require('uuid/v4');
 const { combineResolvers } = require('graphql-resolvers');
-const { isAuthenticated, isMessageOwner } = require('./authorization');
 const Sequelize = require('sequelize');
+const { isAuthenticated, isMessageOwner } = require('./authorization');
+const { pubsub, EVENTS } = require('../subscription');
 
 // combineResolvers will run resolvers IN ORDER //
 
@@ -59,5 +60,11 @@ module.exports = {
 
   Message: {
     user: async (message, args, { models }) => await models.User.findById(message.userId)
+  },
+
+  Subscription: {
+    messageCreated: {
+      subscribe: () => PubSub.asyncIterator(EVENTS.MESSAGE_CREATED)
+    }
   }
 };
